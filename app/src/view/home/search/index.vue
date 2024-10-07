@@ -1,10 +1,9 @@
 <template>
   <div class="search">
-      <el-autocomplete  style="width: 600px;"
-        v-model="state1"
-        :fetch-suggestions="querySearch"
+      <el-autocomplete  class="atoInput" style="width: 600px;display: flex;flex-direction: column;"
+        v-model="keyword"
+        :fetch-suggestions="querySearchAsync"
         clearable
-        class="inline-input w-50"
         placeholder="请输入内容"
         @select="handleSelect"
       />  
@@ -14,6 +13,33 @@
 
 <script setup lang="ts">
 import {Search} from '@element-plus/icons-vue'
+import { ref } from 'vue'
+import {useRouter} from "vue-router"
+
+const router =useRouter()
+//使用hooks
+import useHosptialSearch from '../../../hooks/useHosptialSearch'
+let keyword=ref('')
+let {getdate,showData}=useHosptialSearch(keyword)
+
+let querySearchAsync=async(_:any, cb:any)=>{
+  await getdate()
+  cb(showData.value)
+  showData.value=[]
+}
+
+// 点击推荐项,进行路由的跳转
+let handleSelect=(item:any)=>{
+  console.log(item);
+  
+  router.push({
+    path:'/hosptial/register',
+    query:{
+      hoscode:item.hoscode
+    }
+  })
+}
+
 </script>
 
 <style scoped lang="scss">
@@ -21,7 +47,5 @@ import {Search} from '@element-plus/icons-vue'
   margin: 20px 0;
   display: flex;
   justify-content: center;
-
-
 }
 </style>

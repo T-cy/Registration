@@ -14,16 +14,19 @@
 import {reqHosptialLevelAndRegion} from '../../../api/home/index'
 import { ref,onMounted } from 'vue'
 import {type HosptialLevelAndRegionResponData ,type  HosptialLevelAndRegionArr} from '../../../api/home/type'
+//给父组件传递数据
+const emit =defineEmits(['sendHospRegion'])
 
 let Region=ref<HosptialLevelAndRegionArr>([])
 //排他思想
 let RegionFlag=ref<string>('')
+//传递数据给父亲
 let changeFlag=(value:string)=>{
   RegionFlag.value=value
+  emit("sendHospRegion",value)
 }
 const  getDate=async()=>{
   let res:HosptialLevelAndRegionResponData|any=await reqHosptialLevelAndRegion('Beijin')
-  console.log(res);
   if(res.data.code==200){
     Region.value=res.data.data
   }

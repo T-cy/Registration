@@ -1,14 +1,15 @@
 <template>
   <div class="top">
     <div class="content">
-      <div class="left">
+      <div class="left" @click="goHome">
         <img src="../../assets/images/logo.png" alt="">
         <p>医院就医挂号预约平台</p>
       </div>
 
       <div class="right">
       <p class="help">帮助中心</p>
-      <p class="login">登录注册</p>
+      <p v-if="!getToken()" class="login" @click="showLogin">登录注册</p>
+      <p v-else class="login">{{ getName() }}</p>
     </div>
     </div>
 
@@ -16,7 +17,20 @@
 </template>
 
 <script lang="ts" setup >
+import { useRouter } from 'vue-router'
+import { getToken,getName } from '../../utils/user'
+import useUserStore from '../../store/modules/user'
+let userStore=useUserStore()
+const router=useRouter()
 
+let goHome=()=>{
+  router.push({
+    path:'/home'
+  })
+}
+let showLogin=()=>{
+  userStore.dialogFormVisible=true
+}
 </script>
 
 <style scoped lang="scss">

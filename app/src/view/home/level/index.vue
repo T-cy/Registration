@@ -5,7 +5,7 @@
         <div class="left">等级：</div>
         <ul>
           <li :class="{active:activeFlag==''}"  @click="changeActive('')">全部</li>
-          <li :class="{active:activeFlag==item.value}" v-for="item in Level" :key="item.id"  @click="changeActive(item.value)">{{item.name}}</li>
+          <li :class="{active:activeFlag==item.value}" v-for="item in Level" :key="item.id"  @click="changeActive(item.value)" >{{item.name}}</li>
         </ul>
 
     </div>
@@ -16,6 +16,11 @@
 import {reqHosptialLevelAndRegion} from '../../../api/home/index'
 import { ref,onMounted } from 'vue'
 import {type HosptialLevelAndRegionResponData ,type  HosptialLevelAndRegionArr} from '../../../api/home/type'
+
+//组件间通信
+let emit=defineEmits(['sendHosptype'])
+
+
 //存储等级的数组
 let Level=ref<HosptialLevelAndRegionArr>([])
 
@@ -23,12 +28,12 @@ let Level=ref<HosptialLevelAndRegionArr>([])
 let activeFlag=ref<string>('')
 let changeActive=(value:string)=>{
   activeFlag.value=value
+  emit('sendHosptype',value)
 }
 
 
 const  getDate=async()=>{
   let res:HosptialLevelAndRegionResponData|any=await reqHosptialLevelAndRegion('HosType')
-  console.log(res);
   if(res.data.code==200){
     Level.value=res.data.data
   }

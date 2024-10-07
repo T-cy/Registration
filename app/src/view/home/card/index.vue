@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <el-card class="item" shadow="hover" v-for="item in hosptialArr" :key="item.id " >
+    <el-card class="item" shadow="hover" v-for="item in hosptialArr" :key="item.id " @click="goDetail(item)">
         <div class="content">
           <div class="left">
           <h2>{{ item.hosname }}</h2>
@@ -21,13 +21,27 @@
             </div>
       </div>  
     </el-card>
-
   </div>
 </template>
 
 <script setup lang="ts">
 //医院的信息
 defineProps(['hosptialArr'])
+import { useRouter } from 'vue-router'
+const router=useRouter()
+
+let goDetail=(item:any)=>{
+  router.push({
+    path:'/hosptial/register',
+    query:{
+      hoscode:item.hoscode
+    }
+  })
+}
+
+
+
+
 
 </script>
 

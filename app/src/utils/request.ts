@@ -17,6 +17,9 @@ const requests=axios.create({
 //config配置对象上有一个重要的东西就是headers,可以通过请求头来拦截
 requests.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
+    if (localStorage.getItem("Token_Hosptial")) {
+      console.log(localStorage.getItem("Name_Hosptial"));
+    }
     return config;
   }, function (error) {
     // 对请求错误做些什么

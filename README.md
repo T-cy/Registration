@@ -63,3 +63,31 @@ Day2
   let changeActive=(value:string)=>{
     activeFlag.value=value
   }
+
+  Day 3
+  1、不同类型医院数据（医院的类型、医院的地址）
+  子组件给父组件传递类型数据、地区数据给父组件，然后父组件获取到子组件的数据然后进行路由的请求
+  不要忘记的是，父组件接收到数据的时候就发路由请求更新页面
+
+  2、使用hooks进行模块化
+  (使用了外部参数传进来给hooks)
+
+  3、静态路由的搭载（医院的导航菜单）
+  el-sub-menu是用来折叠的
+
+  4、使用仓库pinia
+  安装pinia  npm i 安装----》在store文件夹下创建pinia  暴露export default pinia------》在入口文件中引入pinia,并且使用pinia，app.use(pinia)
+  创建小仓库---》并且暴露
+
+  5、获取路由请求query参数进行路由的跳转
+  在hosptial组件里面，获取到当前的路由信息，route，然后携带这个路由中的query参数进行路由的跳转，因为这里的路由请求方法是在仓库里面的，因此引入仓库进行路由的，将当前页面的路由信息中的query参数进行路由的跳转
+
+  6、如果要修改element组件的样式，就要用到深度选择器
+  .login{
+  ::v-deep(.el-dialog__body){
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+  }
+}
+
+7、倒计时的显示

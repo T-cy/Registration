@@ -8,7 +8,10 @@
     </div>
 
     <!-- 页面的底部 -->
-    <HospButtom></HospButtom>
+    <HospButtom v-show="route.fullPath=='/home' "></HospButtom>
+
+    <!-- 登录的气泡框显示与隐藏 -->
+    <Login/>
   </div>
 
 
@@ -17,7 +20,8 @@
 
 
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+import { RouterView,useRoute} from 'vue-router'
+const route=useRoute()
 
 
 </script>

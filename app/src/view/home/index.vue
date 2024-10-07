@@ -10,10 +10,13 @@
     <!-- 展示医院的结构 -->
     <el-row :gutter="20">
         <el-col :span="20" >
-            <Level/>
-            <Region/>
-            <Card :hosptialArr="hosptialArr"/>
-            <el-pagination  class="pagenition"
+            <Level @sendHosptype="getHosptype"/>
+            <Region @sendHospRegion="getHospRegion"/>
+            <Card :hosptialArr="hosptialArr" v-if="hosptialArr.length>0"/>
+            <div v-else>
+              <el-empty description="没有更多内容了" />
+            </div> 
+            <el-pagination  v-if="hosptialArr.length>0"  class="pagenition"
             v-model:current-page="pageNo"
             v-model:page-size="pageSize"
             :page-sizes="[10, 20, 30, 40]"
@@ -24,7 +27,9 @@
             @current-change="handleCurrentChange"
             />
         </el-col>
-        <el-col :span="4">123</el-col>
+        <el-col :span="4">
+          <Tip/>
+        </el-col>
     </el-row>
 
 
@@ -37,6 +42,7 @@ import Search from './search/index.vue'
 import Level from './level/index.vue'
 import Region from './region/index.vue'
 import Card from './card/index.vue'
+import Tip from './tip/index.vue'
 
 import { getHasHosptial } from '../../api/home/index'
 import {ref,onMounted} from 'vue'
@@ -49,8 +55,21 @@ let pageTotal=ref(0)
 //医院的信息
 let hosptialArr=ref<Content>([])
 
+
+//接收儿子传来的数据
+let HosType=ref<string>('')
+let getHosptype=(value:string)=>{
+  HosType.value=value
+  getDate()
+}
+let HospRegion=ref<string>()
+let getHospRegion=(value:string)=>{
+  HospRegion.value=value
+  getDate()
+}
+
 const getDate=async()=>{
-  let res:any=await getHasHosptial(pageNo.value,pageSize.value)
+  let res:any=await getHasHosptial(pageNo.value,pageSize.value,HosType.value,HospRegion.value)
   let {data}=res
   if(data.code==200){
     hosptialArr.value=data.data.content  
